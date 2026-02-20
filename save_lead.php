@@ -4,8 +4,8 @@ header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
 // --- CONFIGURATION ---
-// Paste your Google Apps Script URL here once you have it
-$google_sheet_webhook = ""; 
+// Google Apps Script URL for Google Sheets Integration
+$google_sheet_webhook = "https://script.google.com/macros/s/AKfycbyX91lQ5h-TIIvehz98KC5-3fsMdGUkQo69p5qTfkDQZqKgPUiIYi56fDQ2JQtdNWEeKA/exec"; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $input = file_get_contents('php://input');
@@ -64,6 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
             curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true); // Required for Google script redirects
             curl_exec($ch);
             curl_close($ch);
         }
